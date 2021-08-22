@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -30,4 +31,7 @@ public class Sessao {
     @OneToOne()
     @JoinColumn(name = "pauta_id", referencedColumnName = "id")
     private Pauta pauta;
+
+    @OneToMany
+    private List<Voto> votos;
 }

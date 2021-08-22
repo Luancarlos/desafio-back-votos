@@ -26,4 +26,8 @@ public class Voto {
 
     @Column(name = "data_voto")
     private LocalDateTime dataVoto;
+
+    @ManyToOne
+    @JoinColumn(name = "sessao_id", referencedColumnName = "id")
+    private Sessao sessao;
 }
