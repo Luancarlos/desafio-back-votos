@@ -32,6 +32,6 @@ public class Sessao {
     @JoinColumn(name = "pauta_id", referencedColumnName = "id")
     private Pauta pauta;
 
-    @OneToMany
+    @OneToMany(mappedBy = "sessao")
     private List<Voto> votos;
 }

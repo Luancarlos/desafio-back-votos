@@ -1,6 +1,7 @@
 package br.com.southsystem.cooperativa.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Pauta {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,6 +26,6 @@ public class Pauta {
     @Column(name = "data_cadastro")
     private LocalDateTime dataCadastro;
 
-    @OneToOne
+    @OneToOne(mappedBy = "pauta")
     private Sessao sessao;
 }
