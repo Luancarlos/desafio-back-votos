@@ -1,4 +1,4 @@
-package br.com.southsystem.cooperativa.exception;
+package br.com.southsystem.cooperativa.exceptions;
 
 import java.util.Date;
 

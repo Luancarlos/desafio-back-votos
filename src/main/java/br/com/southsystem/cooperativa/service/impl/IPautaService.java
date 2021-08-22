@@ -1,10 +1,10 @@
 package br.com.southsystem.cooperativa.service.impl;
 
 import br.com.southsystem.cooperativa.entity.Pauta;
+import br.com.southsystem.cooperativa.exceptions.BadRequestException;
 import br.com.southsystem.cooperativa.repository.PautaRepository;
 import br.com.southsystem.cooperativa.service.PautaService;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 
 @Service
@@ -18,17 +18,20 @@ public class IPautaService implements PautaService {
 
     @Override
     public Pauta criarPauta(Pauta pauta) {
+        if (pauta.getDescricao() == null || pauta.getDescricao().trim().equals("")) {
+            throw new BadRequestException("A descrição da pauta é obrigatória");
+        }
         pauta.setDataCadastro(LocalDateTime.now());
         return pautaRepository.save(pauta);
     }
 
     @Override
     public Pauta buscarPautaPorSessao(Long sessaoId) {
-        return null;
+        return pautaRepository.getBySessaoId(sessaoId);
     }
 
     @Override
     public Pauta buscarPautaPorId(Long id) {
-        return null;
+        return pautaRepository.getById(id);
     }
 }
