@@ -24,4 +24,16 @@ public class ApplicationExceptionHandle extends ResponseEntityExceptionHandler{
         return new ResponseEntity<ErrorResponse>(response, HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(BadRequestException.class)
+    public ResponseEntity<ErrorResponse> badRequest(BadRequestException ex, WebRequest request) {
+        ErrorResponse response = new ErrorResponse(
+                ex.getMessage(),
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<ErrorResponse>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }
