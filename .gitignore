@@ -33,4 +33,4 @@ build/
 .vscode/
 
 ### OUTROS ###
-./volume-postgres
+/volume-postgres
