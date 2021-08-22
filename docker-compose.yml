@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+  postgres-compose:
+    image: "postgres:11"
+    environment:
+      TZ: "America/Recife"
+      POSTGRES_PASSWORD: "admin"
+      POSTGRES_DB: "cooperativa"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./volume-postgres:/var/lib/postgresql/data
+    networks:
+      - postgres-compose-network
+
+  pgadmin-compose:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "luanbam@hotmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+    ports:
+      - "16543:80"
+    depends_on:
+      - postgres-compose
+    networks:
+      - postgres-compose-network
+
+networks:
+  postgres-compose-network:
+    driver: bridge
