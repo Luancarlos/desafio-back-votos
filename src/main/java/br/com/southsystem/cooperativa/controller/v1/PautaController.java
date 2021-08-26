@@ -6,10 +6,8 @@ import br.com.southsystem.cooperativa.service.PautaService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 
 @RestController
@@ -25,6 +23,18 @@ public class PautaController {
     @PostMapping
     public ResponseEntity<Pauta> salvar(@Valid @RequestBody PautaRequestDTO pautaDTO) {
         Pauta pauta = this.pautaService.criarPauta(pautaDTO);
-        return new ResponseEntity<Pauta>(pauta, HttpStatus.CREATED);
+        return new ResponseEntity<>(pauta, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Pauta> buscarPorId(@RequestParam("id") Long id) {
+        Pauta pauta = this.pautaService.buscarPautaPorId(id);
+        return new ResponseEntity<>(pauta, HttpStatus.OK);
+    }
+
+    @GetMapping("/sessao/{id}")
+    public ResponseEntity<Pauta> buscarPorSessaoId(@RequestParam("id") Long id) {
+        Pauta pauta = this.pautaService.buscarPautaPorSessao(id);
+        return new ResponseEntity<>(pauta, HttpStatus.OK);
     }
 }
