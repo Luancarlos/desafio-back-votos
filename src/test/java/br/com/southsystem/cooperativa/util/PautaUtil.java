@@ -20,8 +20,8 @@ public class PautaUtil {
                 .descricao("Pauta teste")
                 .id(1L)
                 .dataCadastro(LocalDateTime.now())
-                .quantidade_votos(0)
-                .sessao_id(1L)
+                .quantidadeVotos(0)
+                .sessaoId(1L)
                 .build();
     }
 

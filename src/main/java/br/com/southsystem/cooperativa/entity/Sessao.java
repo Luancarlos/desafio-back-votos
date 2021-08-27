@@ -1,6 +1,7 @@
 package br.com.southsystem.cooperativa.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,15 +13,13 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class Sessao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column
     private Long id;
-
-    @Column
-    private String situacao;
 
     @Column(name = "data_abertura")
     private LocalDateTime dataAbertura;

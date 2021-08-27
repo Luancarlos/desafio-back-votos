@@ -9,7 +9,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel="spring")
 public interface PautaMapper {
 
-    @Mapping(source = "sessao.id", target = "sessao_id")
+    @Mapping(source = "sessao.id", target = "sessaoId")
     PautaResponseDTO pautaToPautaResponse(Pauta pauta);
 
     Pauta pautaRequestDTOToPauta(PautaRequestDTO pautaRequestDTO);
