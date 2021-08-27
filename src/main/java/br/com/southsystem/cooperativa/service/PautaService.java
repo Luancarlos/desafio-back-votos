@@ -1,10 +1,10 @@
 package br.com.southsystem.cooperativa.service;
 
 import br.com.southsystem.cooperativa.dto.request.PautaRequestDTO;
-import br.com.southsystem.cooperativa.entity.Pauta;
+import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 
 public interface PautaService {
-    Pauta criarPauta(PautaRequestDTO pauta);
-    Pauta buscarPautaPorSessao(Long sessaoId);
-    Pauta buscarPautaPorId(Long id);
+    PautaResponseDTO criarPauta(PautaRequestDTO pauta);
+    PautaResponseDTO buscarPautaPorSessao(Long sessaoId);
+    PautaResponseDTO buscarPautaPorId(Long id);
 }

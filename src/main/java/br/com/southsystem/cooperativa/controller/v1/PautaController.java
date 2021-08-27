@@ -1,7 +1,9 @@
 package br.com.southsystem.cooperativa.controller.v1;
 
 import br.com.southsystem.cooperativa.dto.request.PautaRequestDTO;
+import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 import br.com.southsystem.cooperativa.entity.Pauta;
+import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.service.PautaService;
 import lombok.extern.log4j.Log4j;
 import org.springframework.http.HttpStatus;
@@ -21,20 +23,20 @@ public class PautaController {
     }
 
     @PostMapping
-    public ResponseEntity<Pauta> salvar(@Valid @RequestBody PautaRequestDTO pautaDTO) {
-        Pauta pauta = this.pautaService.criarPauta(pautaDTO);
+    public ResponseEntity<PautaResponseDTO> salvar(@Valid @RequestBody PautaRequestDTO pautaDTO) {
+        PautaResponseDTO pauta = this.pautaService.criarPauta(pautaDTO);
         return new ResponseEntity<>(pauta, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pauta> buscarPorId(@RequestParam("id") Long id) {
-        Pauta pauta = this.pautaService.buscarPautaPorId(id);
+    public ResponseEntity<PautaResponseDTO> buscarPorId(@PathVariable Long id) {
+        PautaResponseDTO pauta = this.pautaService.buscarPautaPorId(id);
         return new ResponseEntity<>(pauta, HttpStatus.OK);
     }
 
     @GetMapping("/sessao/{id}")
-    public ResponseEntity<Pauta> buscarPorSessaoId(@RequestParam("id") Long id) {
-        Pauta pauta = this.pautaService.buscarPautaPorSessao(id);
+    public ResponseEntity<PautaResponseDTO> buscarPorSessaoId(@PathVariable Long id) {
+        PautaResponseDTO pauta = this.pautaService.buscarPautaPorSessao(id);
         return new ResponseEntity<>(pauta, HttpStatus.OK);
     }
 }

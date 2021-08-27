@@ -1,8 +1,10 @@
 package br.com.southsystem.cooperativa.service.impl;
 
 import br.com.southsystem.cooperativa.dto.request.PautaRequestDTO;
+import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 import br.com.southsystem.cooperativa.entity.Pauta;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
+import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.repository.PautaRepository;
 import br.com.southsystem.cooperativa.service.PautaService;
@@ -22,25 +24,26 @@ public class IPautaService implements PautaService {
     }
 
     @Override
-    public Pauta criarPauta(PautaRequestDTO pautaRequestDTO) {
-
+    public PautaResponseDTO criarPauta(PautaRequestDTO pautaRequestDTO) {
         Pauta pauta = pautaMapper.pautaRequestDTOToPauta(pautaRequestDTO);
-
         if (pauta.getDescricao() == null || pauta.getDescricao().trim().equals("")) {
             throw new BadRequestException("A descrição da pauta é obrigatória");
         }
-
         pauta.setDataCadastro(LocalDateTime.now());
-        return pautaRepository.save(pauta);
+        return pautaMapper.pautaToPautaResponse(pautaRepository.save(pauta));
     }
 
     @Override
-    public Pauta buscarPautaPorSessao(Long sessaoId) {
-        return pautaRepository.getBySessaoId(sessaoId);
+    public PautaResponseDTO buscarPautaPorSessao(Long sessaoId) {
+        Pauta pauta = pautaRepository.findBySessaoId(sessaoId)
+                .orElseThrow(() -> new ResourceNotFoundException("Não foi possível encontrar a Pauta"));
+        return pautaMapper.pautaToPautaResponse(pauta);
     }
 
     @Override
-    public Pauta buscarPautaPorId(Long id) {
-        return pautaRepository.getById(id);
+    public PautaResponseDTO buscarPautaPorId(Long id) {
+       Pauta pauta = pautaRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Não foi possível encontrar a Pauta"));
+       return pautaMapper.pautaToPautaResponse(pauta);
     }
 }
