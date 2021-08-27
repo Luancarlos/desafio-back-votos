@@ -12,5 +12,8 @@ public interface PautaMapper {
     @Mapping(source = "sessao.id", target = "sessaoId")
     PautaResponseDTO pautaToPautaResponse(Pauta pauta);
 
+    Pauta pautaResponseDTOToPauta(PautaResponseDTO pautaResponseDTO);
+
     Pauta pautaRequestDTOToPauta(PautaRequestDTO pautaRequestDTO);
+
 }
