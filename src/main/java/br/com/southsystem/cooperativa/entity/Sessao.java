@@ -17,7 +17,7 @@ import java.util.List;
 public class Sessao {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 
@@ -28,7 +28,7 @@ public class Sessao {
     private LocalDateTime dataFechamento;
 
     @OneToOne()
-    @JoinColumn(name = "pauta_id", referencedColumnName = "id")
+    @JoinColumn(name = "pauta_id", referencedColumnName = "id", unique = true)
     private Pauta pauta;
 
     @OneToMany(mappedBy = "sessao")

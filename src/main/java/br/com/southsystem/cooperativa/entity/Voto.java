@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 public class Voto {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Long id;
 

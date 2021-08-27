@@ -1,12 +1,9 @@
 package br.com.southsystem.cooperativa.service.impl;
 
 import br.com.southsystem.cooperativa.dto.request.SessaoRequestDTO;
-import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
-import br.com.southsystem.cooperativa.entity.Pauta;
 import br.com.southsystem.cooperativa.entity.Sessao;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
-import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.mapper.SessaoMapper;
 import br.com.southsystem.cooperativa.repository.SessaoRepository;
 import br.com.southsystem.cooperativa.service.PautaService;
@@ -36,8 +33,13 @@ public class ISessaoService implements SessaoService {
         Sessao sessao = sessaoMapper.sessaoRequestDTOToSessao(sessaoRequestDTO);
         sessao.setDataAbertura(LocalDateTime.now());
         addDataFechamento(sessao);
+        Sessao novaSessao = null;
 
-        Sessao novaSessao = sessaoRepository.save(sessao);
+        try {
+            novaSessao = sessaoRepository.save(sessao);
+        } catch (Exception e) {
+            throw new BadRequestException("A pauta já está associada a uma sessão");
+        }
 
         return sessaoMapper.sessaoToSessaoResponseDTO(novaSessao);
     }
@@ -50,7 +52,7 @@ public class ISessaoService implements SessaoService {
 
     private void validarDataFechamento(LocalDateTime localDateTime) {
         LocalDateTime now = LocalDateTime.now();
-        if (now.isAfter(localDateTime)) {
+        if (localDateTime!= null && now.isAfter(localDateTime)) {
             throw new BadRequestException("A data de fechamento é menor que a data atual");
         }
     }
