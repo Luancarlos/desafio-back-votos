@@ -21,7 +21,7 @@ public class SessaoUtil {
     public static SessaoRequestDTO criarSessaoRequest() {
         return SessaoRequestDTO.builder()
                 .dataFechamento(LocalDateTime.now())
-                .pautaId(1L).build();
+                .idPauta(1L).build();
     }
 
     public static SessaoResponseDTO criarSessaoRenponse() {
@@ -29,6 +29,6 @@ public class SessaoUtil {
                 .id(1L)
                 .dataAbertura(LocalDateTime.now())
                 .dataFechamento(LocalDateTime.now())
-                .pautaId(1L).build();
+                .idPauta(1L).build();
     }
 }

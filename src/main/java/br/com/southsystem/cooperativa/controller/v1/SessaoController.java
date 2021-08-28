@@ -1,14 +1,12 @@
 package br.com.southsystem.cooperativa.controller.v1;
 
 import br.com.southsystem.cooperativa.dto.request.SessaoRequestDTO;
+import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
 import br.com.southsystem.cooperativa.service.SessaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -27,5 +25,11 @@ public class SessaoController {
         SessaoResponseDTO sessao = sessaoService.criarSessao(sessaoRequestDTO);
 
         return new ResponseEntity<>(sessao, HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SessaoResponseDTO> buscarSessao(@PathVariable Long id) {
+        SessaoResponseDTO sessao = this.sessaoService.buscarPorId(id);
+        return new ResponseEntity<>(sessao, HttpStatus.OK);
     }
 }

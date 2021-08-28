@@ -10,10 +10,11 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel="spring")
 public interface SessaoMapper {
 
-    @Mapping(source = "pauta.id", target = "pautaId")
+    @Mapping(source = "pauta.id", target = "idPauta")
+    @Mapping(source = "pauta.descricao", target = "descricaoPauta")
     SessaoResponseDTO sessaoToSessaoResponseDTO(Sessao sessao);
 
-    @Mapping(source = "pautaId", target = "pauta.id")
+    @Mapping(source = "idPauta", target = "pauta.id")
     Sessao sessaoRequestDTOToSessao(SessaoRequestDTO sessaoRequestDTO);
 
 }

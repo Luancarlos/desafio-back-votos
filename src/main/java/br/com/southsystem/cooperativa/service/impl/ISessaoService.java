@@ -2,8 +2,11 @@ package br.com.southsystem.cooperativa.service.impl;
 
 import br.com.southsystem.cooperativa.dto.request.SessaoRequestDTO;
 import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
+import br.com.southsystem.cooperativa.entity.Pauta;
 import br.com.southsystem.cooperativa.entity.Sessao;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
+import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
+import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.mapper.SessaoMapper;
 import br.com.southsystem.cooperativa.repository.SessaoRepository;
 import br.com.southsystem.cooperativa.service.PautaService;
@@ -18,19 +21,21 @@ public class ISessaoService implements SessaoService {
     private final SessaoRepository sessaoRepository;
     private final SessaoMapper sessaoMapper;
     private final PautaService pautaService;
+    private final PautaMapper pautaMapper;
 
-    public ISessaoService(SessaoRepository sessaoRepository, SessaoMapper sessaoMapper, PautaService pautaService) {
+    public ISessaoService(SessaoRepository sessaoRepository, SessaoMapper sessaoMapper, PautaService pautaService, PautaMapper pautaMapper) {
         this.sessaoRepository = sessaoRepository;
         this.sessaoMapper = sessaoMapper;
         this.pautaService = pautaService;
+        this.pautaMapper = pautaMapper;
     }
 
     @Override
     public SessaoResponseDTO criarSessao(SessaoRequestDTO sessaoRequestDTO) {
-        validarPauta(sessaoRequestDTO.getPautaId());
         validarDataFechamento(sessaoRequestDTO.getDataFechamento());
 
         Sessao sessao = sessaoMapper.sessaoRequestDTOToSessao(sessaoRequestDTO);
+        sessao.setPauta(getPauta(sessaoRequestDTO.getIdPauta()));
         sessao.setDataAbertura(LocalDateTime.now());
         addDataFechamento(sessao);
         Sessao novaSessao = null;
@@ -42,6 +47,13 @@ public class ISessaoService implements SessaoService {
         }
 
         return sessaoMapper.sessaoToSessaoResponseDTO(novaSessao);
+    }
+
+    @Override
+    public SessaoResponseDTO buscarPorId(Long id) {
+        Sessao sessao = sessaoRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Não foi possível encontrar a Sessão"));
+        return sessaoMapper.sessaoToSessaoResponseDTO(sessao);
     }
 
     private void addDataFechamento(Sessao sessao) {
@@ -57,7 +69,7 @@ public class ISessaoService implements SessaoService {
         }
     }
 
-    private void validarPauta(Long id) {
-        this.pautaService.buscarPautaPorId(id);
+    private Pauta getPauta(Long id) {
+        return pautaMapper.pautaResponseDTOToPauta(this.pautaService.buscarPautaPorId(id));
     }
 }

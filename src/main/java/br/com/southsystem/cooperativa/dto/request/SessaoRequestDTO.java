@@ -14,6 +14,6 @@ import java.time.LocalDateTime;
 @Data
 public class SessaoRequestDTO {
     @NotNull
-    private Long pautaId;
+    private Long idPauta;
     private LocalDateTime dataFechamento;
 }
