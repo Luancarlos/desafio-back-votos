@@ -29,6 +29,7 @@ public class SessaoUtil {
                 .id(1L)
                 .dataAbertura(LocalDateTime.now())
                 .dataFechamento(LocalDateTime.now())
+                .descricaoPauta("Pauta teste")
                 .idPauta(1L).build();
     }
 }

@@ -3,7 +3,6 @@ package br.com.southsystem.cooperativa.service.impl;
 import br.com.southsystem.cooperativa.dto.request.PautaRequestDTO;
 import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 import br.com.southsystem.cooperativa.entity.Pauta;
-import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.repository.PautaRepository;
 import br.com.southsystem.cooperativa.util.PautaUtil;
