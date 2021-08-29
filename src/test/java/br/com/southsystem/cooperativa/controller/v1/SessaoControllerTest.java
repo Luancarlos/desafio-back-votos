@@ -2,12 +2,10 @@ package br.com.southsystem.cooperativa.controller.v1;
 
 import br.com.southsystem.cooperativa.dto.request.SessaoRequestDTO;
 import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
-import br.com.southsystem.cooperativa.entity.Sessao;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
 import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.service.impl.ISessaoService;
 import br.com.southsystem.cooperativa.util.SessaoUtil;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

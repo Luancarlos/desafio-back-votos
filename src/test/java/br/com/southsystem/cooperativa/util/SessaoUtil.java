@@ -20,7 +20,7 @@ public class SessaoUtil {
 
     public static SessaoRequestDTO criarSessaoRequest() {
         return SessaoRequestDTO.builder()
-                .dataFechamento(LocalDateTime.now())
+                .dataFechamento(LocalDateTime.now().plusHours(1))
                 .idPauta(1L).build();
     }
 

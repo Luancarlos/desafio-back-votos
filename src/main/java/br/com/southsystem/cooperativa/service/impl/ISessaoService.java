@@ -64,7 +64,7 @@ public class ISessaoService implements SessaoService {
 
     private void validarDataFechamento(LocalDateTime localDateTime) {
         LocalDateTime now = LocalDateTime.now();
-        if (localDateTime!= null && now.isAfter(localDateTime)) {
+        if (localDateTime != null && now.isAfter(localDateTime)) {
             throw new BadRequestException("A data de fechamento é menor que a data atual");
         }
     }

@@ -1,24 +1,42 @@
 package br.com.southsystem.cooperativa.service.impl;
 
 import br.com.southsystem.cooperativa.dto.request.SessaoRequestDTO;
+import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
+import br.com.southsystem.cooperativa.entity.Pauta;
+import br.com.southsystem.cooperativa.entity.Sessao;
+import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
+import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.mapper.SessaoMapper;
 import br.com.southsystem.cooperativa.repository.SessaoRepository;
+import br.com.southsystem.cooperativa.service.PautaService;
+import br.com.southsystem.cooperativa.util.PautaUtil;
 import br.com.southsystem.cooperativa.util.SessaoUtil;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@ExtendWith(SpringExtension.class)
 public class ISessaoServiceTest {
 
     @Mock
     private SessaoRepository sessaoRepository;
+
+    @Mock
+    private PautaService pautaService;
+
+    @Mock
+    private PautaMapper pautaMapper;
 
     @Mock
     private SessaoMapper sessaoMapper;
@@ -26,19 +44,53 @@ public class ISessaoServiceTest {
     @InjectMocks
     private ISessaoService sessaoService;
 
+
     @Test
     void deveAbrirUmaSessao() {
-        /*SessaoResponseDTO sessao = SessaoUtil.criarSessaoRenponse();
         SessaoRequestDTO sessaoRequestDTO = SessaoUtil.criarSessaoRequest();
+        SessaoResponseDTO sessaoResponseDTO = SessaoUtil.criarSessaoRenponse();
+        Sessao sessao = SessaoUtil.criarSessao();
+        PautaResponseDTO pautaResponseDTO = PautaUtil.criarPautaResponsDTO();
+        Pauta pauta = PautaUtil.criarPauta();
 
-        when(sessaoService.criarSessao(sessaoRequestDTO)).thenReturn(sessao);
+        when(sessaoRepository.save(any(Sessao.class))).thenReturn(sessao);
+        when(pautaService.buscarPautaPorId(1L)).thenReturn(pautaResponseDTO);
+        when(sessaoMapper.sessaoToSessaoResponseDTO(any(Sessao.class))).thenReturn(sessaoResponseDTO);
+        when(sessaoMapper.sessaoRequestDTOToSessao(any(SessaoRequestDTO.class))).thenReturn(sessao);
+        when(pautaMapper.pautaToPautaResponse(any(Pauta.class))).thenReturn(pautaResponseDTO);
+        when(pautaMapper.pautaResponseDTOToPauta(any(PautaResponseDTO.class))).thenReturn(pauta);
 
-        SessaoResponseDTO sessaoResponseDTO = sessaoService.criarSessao(sessaoRequestDTO);
+        SessaoResponseDTO novaSessaoResponseDTO = sessaoService.criarSessao(sessaoRequestDTO);
 
-        assertNotNull(sessaoResponseDTO.getId());
-        assertNotNull(sessaoResponseDTO.getDataAbertura());
-        assertEquals(sessaoResponseDTO.getDataFechamento(), sessaoRequestDTO.getDataFechamento());*/
+        assertNotNull(novaSessaoResponseDTO.getId());
+        assertNotNull(novaSessaoResponseDTO.getDataAbertura());
+        assertNotNull(novaSessaoResponseDTO.getDataFechamento());
     }
 
+    @Test
+    void deveRetornarUmaSessao() {
+        Long id = 1L;
+        SessaoResponseDTO sessaoResponseDTO = SessaoUtil.criarSessaoRenponse();
+        Sessao sessao = SessaoUtil.criarSessao();
+
+        when(sessaoRepository.findById(id)).thenReturn(Optional.of(sessao));
+        when(sessaoMapper.sessaoToSessaoResponseDTO(any(Sessao.class))).thenReturn(sessaoResponseDTO);
+        SessaoResponseDTO novaSessaoResponseDTO = sessaoService.buscarPorId(id);
+
+        assertSame(novaSessaoResponseDTO, sessaoResponseDTO);
+    }
+
+    @Test
+    void deveLancarExcecaoQuandoNaoEncontrarIdSessao() {
+        Long id = 1L;
+        SessaoResponseDTO sessaoResponseDTO = SessaoUtil.criarSessaoRenponse();
+
+        when(sessaoRepository.findById(id)).thenReturn(Optional.empty());
+        when(sessaoMapper.sessaoToSessaoResponseDTO(any(Sessao.class))).thenReturn(sessaoResponseDTO);
+
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            sessaoService.buscarPorId(id);
+        });
+    }
 
 }
