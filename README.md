@@ -30,7 +30,7 @@ $ ./mvnw
 A aplicação pode ser acessada pelo caminho http://localhost:8080
 
 ### Documentação da API
-A aplicação foi documentada pelo Swagger
+A aplicação foi documentada com Swagger
 ```shell script
 http://localhost:8080/api/swagger-ui/index.html
 ```
