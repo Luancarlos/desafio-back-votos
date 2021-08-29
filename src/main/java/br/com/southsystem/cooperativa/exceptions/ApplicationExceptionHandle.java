@@ -1,6 +1,7 @@
 package br.com.southsystem.cooperativa.exceptions;
 
 import java.util.Date;
+import java.util.Objects;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class ApplicationExceptionHandle extends ResponseEntityExceptionHandler{
     public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
         ErrorResponse response = new ErrorResponse(
-                e.getFieldError().getDefaultMessage(),
+                Objects.requireNonNull(e.getFieldError()).getDefaultMessage(),
                 HttpStatus.BAD_REQUEST.value(),
                 new Date(),
                 request.getDescription(false)

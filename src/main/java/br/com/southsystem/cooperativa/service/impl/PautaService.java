@@ -7,11 +7,9 @@ import br.com.southsystem.cooperativa.entity.Pauta;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
 import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.PautaMapper;
-import br.com.southsystem.cooperativa.mapper.VotoMapper;
 import br.com.southsystem.cooperativa.repository.PautaRepository;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-import java.util.stream.Collectors;
 
 @Service
 public class PautaService implements br.com.southsystem.cooperativa.service.IPautaService {
@@ -20,12 +18,11 @@ public class PautaService implements br.com.southsystem.cooperativa.service.IPau
 
     private final PautaMapper pautaMapper;
 
-    private final VotoMapper votoMapper;
+    private static final String NOTFOUND = "Não foi possível encontrar a Pauta";
 
-    public PautaService(PautaRepository pautaRepository, PautaMapper pautaMapper, VotoMapper votoMapper) {
+    public PautaService(PautaRepository pautaRepository, PautaMapper pautaMapper) {
         this.pautaRepository = pautaRepository;
         this.pautaMapper = pautaMapper;
-        this.votoMapper = votoMapper;
     }
 
     @Override
@@ -41,20 +38,20 @@ public class PautaService implements br.com.southsystem.cooperativa.service.IPau
     @Override
     public PautaResponseDTO buscarPautaPorSessao(Long sessaoId) {
         Pauta pauta = pautaRepository.findBySessaoId(sessaoId)
-                .orElseThrow(() -> new ResourceNotFoundException("Não foi possível encontrar a Pauta"));
+                .orElseThrow(() -> new ResourceNotFoundException(NOTFOUND));
         return pautaMapper.pautaToPautaResponse(pauta);
     }
 
     @Override
     public PautaResponseDTO buscarPautaPorId(Long id) {
        Pauta pauta = pautaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Não foi possível encontrar a Pauta"));
+                .orElseThrow(() -> new ResourceNotFoundException(NOTFOUND));
        return pautaMapper.pautaToPautaResponse(pauta);
     }
 
     private Pauta buscarPauta(Long id) {
         return pautaRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Não foi possível encontrar a Pauta"));
+                .orElseThrow(() -> new ResourceNotFoundException(NOTFOUND));
     }
 
     @Override
