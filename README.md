@@ -1,4 +1,4 @@
-#API Gerenciamento de sessão de votação de uma cooperativa 
+# API Gerenciamento de sessão de votação de uma cooperativa 
 Passos para execução e teste da aplicação.
 
 ## Tecnologias
