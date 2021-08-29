@@ -33,12 +33,11 @@ public class IVotoService implements VotoService {
     public VotoResponseDTO votar(VotoRequestDTO votoRequestDTO) {
 
         validarCpf(votoRequestDTO.getCpf());
+        validarSessao(votoRequestDTO.getIdSessao());
 
         if (jaVotou(votoRequestDTO.getCpf())) {
             throw new BadRequestException("O CPF informado já efetuou um voto nesta sessão");
         }
-
-        validarSessao(votoRequestDTO.getIdSessao());
 
         Voto voto = votoMapper.votoRequestDTOToVoto(votoRequestDTO);
         voto.setDataVoto(LocalDateTime.now());
