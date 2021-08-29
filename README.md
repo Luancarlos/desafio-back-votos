@@ -1,3 +1,42 @@
+#API Gerenciamento de sessão de votação de uma cooperativa 
+Passos para execução e teste da aplicação.
+
+## Tecnologias
+- Java 11
+- Spring boot
+- PostgresSQL
+- ActiveMQ
+- Swagger
+- Docker
+
+## Efetuar build da aplicação
+```shell script
+$ ./mvnw install
+$ ./mvnw package
+```
+
+## Rodar os testes da aplicação
+```shell script
+$ ./mvnw test
+```
+
+## Passos para o funcionamento local da aplicação
+```shell script
+$ docker-compose up
+$ ./mvnw
+```
+
+## Informações sobre o funcionamento da aplicação
+A aplicação pode ser acessada pelo caminho http://localhost:8080
+
+### Documentação da API
+A aplicação foi documentada pelo Swagger
+```shell script
+http://localhost:8080/api/swagger-ui/index.html
+```
+Segue o arquivo para testes com o postman
+- [cooperativa_postman_collection.json](Cooperativa.postman_collection.json)
+
 # Desafio Técnico
 ## Objetivo
 No cooperativismo, cada associado possui um voto e as decisões são tomadas em assembleias, por votação. A partir disso, você precisa criar uma solução back-end para gerenciar essas sessões de votação. Essa solução deve ser executada na nuvem e promover as seguintes funcionalidades através de uma API REST:
