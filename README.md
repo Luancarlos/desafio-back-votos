@@ -23,7 +23,7 @@ $ ./mvnw test
 ## Passos para o funcionamento local da aplicação
 ```shell script
 $ docker-compose up
-$ ./mvnw
+$ mvn spring-boot:run ou por uma IDE
 ```
 
 ## Informações sobre o funcionamento da aplicação
