@@ -2,14 +2,18 @@ package br.com.southsystem.cooperativa.exceptions;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
+@RestController
 public class ApplicationExceptionHandle extends ResponseEntityExceptionHandler{
     
     @ExceptionHandler(ResourceNotFoundException.class)
@@ -21,7 +25,7 @@ public class ApplicationExceptionHandle extends ResponseEntityExceptionHandler{
             request.getDescription(false)
         );
   
-        return new ResponseEntity<ErrorResponse>(response, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(BadRequestException.class)
@@ -33,7 +37,23 @@ public class ApplicationExceptionHandle extends ResponseEntityExceptionHandler{
                 request.getDescription(false)
         );
 
-        return new ResponseEntity<ErrorResponse>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
+
+
+    @Override
+    public ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException e, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+        ErrorResponse response = new ErrorResponse(
+                e.getFieldError().getDefaultMessage(),
+                HttpStatus.BAD_REQUEST.value(),
+                new Date(),
+                request.getDescription(false)
+        );
+
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
+
 
 }

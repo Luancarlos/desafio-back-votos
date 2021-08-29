@@ -1,13 +1,18 @@
 package br.com.southsystem.cooperativa.service.impl;
 
 import br.com.southsystem.cooperativa.dto.request.VotoRequestDTO;
+import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
 import br.com.southsystem.cooperativa.dto.response.VotoResponseDTO;
 import br.com.southsystem.cooperativa.entity.Voto;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
+import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.VotoMapper;
 import br.com.southsystem.cooperativa.repository.VotoRepository;
+import br.com.southsystem.cooperativa.service.SessaoService;
 import br.com.southsystem.cooperativa.service.VotoService;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 
@@ -16,19 +21,27 @@ public class IVotoService implements VotoService {
 
     private final VotoRepository votoRepository;
     private final VotoMapper votoMapper;
+    private final SessaoService sessaoService;
 
-    public IVotoService(VotoRepository votoRepository, VotoMapper votoMapper) {
+    public IVotoService(VotoRepository votoRepository, VotoMapper votoMapper, SessaoService sessaoService) {
         this.votoRepository = votoRepository;
         this.votoMapper = votoMapper;
+        this.sessaoService = sessaoService;
     }
 
     @Override
     public VotoResponseDTO votar(VotoRequestDTO votoRequestDTO) {
+
+        validarCpf(votoRequestDTO.getCpf());
+
         if (jaVotou(votoRequestDTO.getCpf())) {
             throw new BadRequestException("O CPF informado já efetuou um voto nesta sessão");
         }
 
+        validarSessao(votoRequestDTO.getIdSessao());
+
         Voto voto = votoMapper.votoRequestDTOToVoto(votoRequestDTO);
+        voto.setDataVoto(LocalDateTime.now());
 
         Voto novoVoto = votoRepository.save(voto);
 
@@ -41,7 +54,20 @@ public class IVotoService implements VotoService {
     }
 
     private String validarCpf(String cpf) {
-        return cpf;
+        String cpfSemMascara = cpf.replaceAll("[^\\d]", "");
+        if (cpfSemMascara.length() != 11) {
+            throw new BadRequestException("O CPF informado é inválido");
+        }
+        return cpfSemMascara;
+    }
+
+    private void validarSessao(Long id) {
+        SessaoResponseDTO sessao = sessaoService.buscarPorId(id);
+
+        LocalDateTime now = LocalDateTime.now();
+        if (sessao.getDataFechamento().isBefore(now)) {
+            throw new BadRequestException("Está sessão já foi encerreda");
+        }
     }
 
 

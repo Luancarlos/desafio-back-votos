@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
 
 @Builder
 @Data
@@ -18,12 +15,11 @@ public class VotoRequestDTO {
     private Long idSessao;
 
     @NotNull
-    @Max(14)
-    @Min(11)
+    @Size(min = 11, max = 14, message = "O CPF precisa ter no mínino 11 dígitos e com mascara no máximo 14 dígitos")
     private String cpf;
 
     @NotNull
-    @Pattern(regexp = "Sim|Não")
+    @Pattern(regexp = "Sim|Não", message = "Para o voto só é aceito 'Sim' ou 'Não'")
     private String voto;
 
 }

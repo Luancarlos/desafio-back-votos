@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface VotoRepository extends JpaRepository<Voto, Long> {
     Optional<Voto> findByCpf(String cpf);
+    Optional<Voto> findBySessaoId(Long id);
 }
