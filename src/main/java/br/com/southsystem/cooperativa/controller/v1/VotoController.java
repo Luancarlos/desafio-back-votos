@@ -3,6 +3,8 @@ package br.com.southsystem.cooperativa.controller.v1;
 import br.com.southsystem.cooperativa.dto.request.VotoRequestDTO;
 import br.com.southsystem.cooperativa.dto.response.VotoResponseDTO;
 import br.com.southsystem.cooperativa.service.IVotoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +16,7 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/v1/voto")
+@Api( tags = "Voto")
 public class VotoController {
 
     private final IVotoService votoService;
@@ -23,6 +26,7 @@ public class VotoController {
     }
 
     @PostMapping
+    @ApiOperation(value = "Responsável por adicionar voto")
     public ResponseEntity<VotoResponseDTO> votar(@Valid @RequestBody VotoRequestDTO votoRequestDTO) {
         VotoResponseDTO voto = votoService.votar(votoRequestDTO);
         return new ResponseEntity<>(voto, HttpStatus.CREATED);
