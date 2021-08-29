@@ -8,11 +8,12 @@ import br.com.southsystem.cooperativa.exceptions.BadRequestException;
 import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.repository.PautaRepository;
+import br.com.southsystem.cooperativa.service.IPautaService;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
-public class PautaService implements br.com.southsystem.cooperativa.service.IPautaService {
+public class PautaService implements IPautaService {
 
     private final PautaRepository pautaRepository;
 

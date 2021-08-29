@@ -10,12 +10,13 @@ import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.mapper.SessaoMapper;
 import br.com.southsystem.cooperativa.repository.SessaoRepository;
 import br.com.southsystem.cooperativa.service.IPautaService;
+import br.com.southsystem.cooperativa.service.ISessaoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-public class SessaoService implements br.com.southsystem.cooperativa.service.ISessaoService {
+public class SessaoService implements ISessaoService {
 
     private final SessaoRepository sessaoRepository;
     private final SessaoMapper sessaoMapper;

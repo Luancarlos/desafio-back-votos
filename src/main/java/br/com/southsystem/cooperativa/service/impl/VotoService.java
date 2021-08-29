@@ -8,6 +8,7 @@ import br.com.southsystem.cooperativa.exceptions.BadRequestException;
 import br.com.southsystem.cooperativa.mapper.VotoMapper;
 import br.com.southsystem.cooperativa.repository.VotoRepository;
 import br.com.southsystem.cooperativa.service.ISessaoService;
+import br.com.southsystem.cooperativa.service.IVotoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -15,7 +16,7 @@ import java.util.Optional;
 
 
 @Service
-public class VotoService implements br.com.southsystem.cooperativa.service.IVotoService {
+public class VotoService implements IVotoService {
 
     private final VotoRepository votoRepository;
     private final VotoMapper votoMapper;
