@@ -9,21 +9,20 @@ import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.mapper.SessaoMapper;
 import br.com.southsystem.cooperativa.repository.SessaoRepository;
-import br.com.southsystem.cooperativa.service.PautaService;
-import br.com.southsystem.cooperativa.service.SessaoService;
+import br.com.southsystem.cooperativa.service.IPautaService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-public class ISessaoService implements SessaoService {
+public class SessaoService implements br.com.southsystem.cooperativa.service.ISessaoService {
 
     private final SessaoRepository sessaoRepository;
     private final SessaoMapper sessaoMapper;
-    private final PautaService pautaService;
+    private final IPautaService pautaService;
     private final PautaMapper pautaMapper;
 
-    public ISessaoService(SessaoRepository sessaoRepository, SessaoMapper sessaoMapper, PautaService pautaService, PautaMapper pautaMapper) {
+    public SessaoService(SessaoRepository sessaoRepository, SessaoMapper sessaoMapper, IPautaService pautaService, PautaMapper pautaMapper) {
         this.sessaoRepository = sessaoRepository;
         this.sessaoMapper = sessaoMapper;
         this.pautaService = pautaService;

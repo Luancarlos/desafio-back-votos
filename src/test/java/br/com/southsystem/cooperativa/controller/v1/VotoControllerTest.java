@@ -3,7 +3,7 @@ package br.com.southsystem.cooperativa.controller.v1;
 
 import br.com.southsystem.cooperativa.dto.request.VotoRequestDTO;
 import br.com.southsystem.cooperativa.dto.response.VotoResponseDTO;
-import br.com.southsystem.cooperativa.service.impl.IVotoService;
+import br.com.southsystem.cooperativa.service.impl.VotoService;
 import br.com.southsystem.cooperativa.util.VotoUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ public class VotoControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private IVotoService votoService;
+    private VotoService votoService;
 
     @Test
     void deveRetornarSucessoQuandoVotar() throws Exception {

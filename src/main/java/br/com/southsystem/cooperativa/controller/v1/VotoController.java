@@ -2,7 +2,7 @@ package br.com.southsystem.cooperativa.controller.v1;
 
 import br.com.southsystem.cooperativa.dto.request.VotoRequestDTO;
 import br.com.southsystem.cooperativa.dto.response.VotoResponseDTO;
-import br.com.southsystem.cooperativa.service.VotoService;
+import br.com.southsystem.cooperativa.service.IVotoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +16,9 @@ import javax.validation.Valid;
 @RequestMapping("/v1/voto")
 public class VotoController {
 
-    private final VotoService votoService;
+    private final IVotoService votoService;
 
-    public VotoController(VotoService votoService) {
+    public VotoController(IVotoService votoService) {
         this.votoService = votoService;
     }
 

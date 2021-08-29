@@ -4,7 +4,7 @@ import br.com.southsystem.cooperativa.dto.request.SessaoRequestDTO;
 import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
 import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
-import br.com.southsystem.cooperativa.service.impl.ISessaoService;
+import br.com.southsystem.cooperativa.service.impl.SessaoService;
 import br.com.southsystem.cooperativa.util.SessaoUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +33,7 @@ public class SessaoControllerTest {
     private ObjectMapper objectMapper;
 
     @MockBean
-    private ISessaoService sessaoService;
+    private SessaoService sessaoService;
 
     @Test
     @DisplayName("Teste de sucesso salvar sessao")

@@ -9,7 +9,7 @@ import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.mapper.SessaoMapper;
 import br.com.southsystem.cooperativa.repository.SessaoRepository;
-import br.com.southsystem.cooperativa.service.PautaService;
+import br.com.southsystem.cooperativa.service.IPautaService;
 import br.com.southsystem.cooperativa.util.PautaUtil;
 import br.com.southsystem.cooperativa.util.SessaoUtil;
 import org.junit.jupiter.api.Assertions;
@@ -19,21 +19,19 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
 import java.util.Optional;
-
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class ISessaoServiceTest {
+public class SessaoServiceTest {
 
     @Mock
     private SessaoRepository sessaoRepository;
 
     @Mock
-    private PautaService pautaService;
+    private IPautaService pautaService;
 
     @Mock
     private PautaMapper pautaMapper;
@@ -42,7 +40,7 @@ public class ISessaoServiceTest {
     private SessaoMapper sessaoMapper;
 
     @InjectMocks
-    private ISessaoService sessaoService;
+    private SessaoService sessaoService;
 
 
     @Test

@@ -5,11 +5,9 @@ import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
 import br.com.southsystem.cooperativa.dto.response.VotoResponseDTO;
 import br.com.southsystem.cooperativa.entity.Voto;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
-import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.VotoMapper;
 import br.com.southsystem.cooperativa.repository.VotoRepository;
-import br.com.southsystem.cooperativa.service.SessaoService;
-import br.com.southsystem.cooperativa.service.VotoService;
+import br.com.southsystem.cooperativa.service.ISessaoService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -17,13 +15,13 @@ import java.util.Optional;
 
 
 @Service
-public class IVotoService implements VotoService {
+public class VotoService implements br.com.southsystem.cooperativa.service.IVotoService {
 
     private final VotoRepository votoRepository;
     private final VotoMapper votoMapper;
-    private final SessaoService sessaoService;
+    private final ISessaoService sessaoService;
 
-    public IVotoService(VotoRepository votoRepository, VotoMapper votoMapper, SessaoService sessaoService) {
+    public VotoService(VotoRepository votoRepository, VotoMapper votoMapper, ISessaoService sessaoService) {
         this.votoRepository = votoRepository;
         this.votoMapper = votoMapper;
         this.sessaoService = sessaoService;

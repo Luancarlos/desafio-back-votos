@@ -1,9 +1,8 @@
 package br.com.southsystem.cooperativa.controller.v1;
 
 import br.com.southsystem.cooperativa.dto.request.SessaoRequestDTO;
-import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
-import br.com.southsystem.cooperativa.service.SessaoService;
+import br.com.southsystem.cooperativa.service.ISessaoService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +13,9 @@ import javax.validation.Valid;
 @RequestMapping("/v1/sessao")
 public class SessaoController {
 
-    private final SessaoService sessaoService;
+    private final ISessaoService sessaoService;
 
-    public SessaoController(SessaoService sessaoService) {
+    public SessaoController(ISessaoService sessaoService) {
         this.sessaoService = sessaoService;
     }
 

@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
@@ -34,10 +33,10 @@ public class VotoServiceTest {
     private VotoMapper votoMapper;
 
     @Mock
-    private ISessaoService sessaoService;
+    private SessaoService sessaoService;
 
     @InjectMocks
-    private IVotoService votoService;
+    private VotoService votoService;
 
     @Test
     void deveSalvarUmVoto() {

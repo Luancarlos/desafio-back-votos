@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class IPautaServiceTest {
+public class PautaServiceTest {
 
     @Mock
     private PautaRepository pautaRepository;
@@ -31,7 +31,7 @@ public class IPautaServiceTest {
     private PautaMapper pautaMapper;
 
     @InjectMocks
-    private IPautaService iPautaService;
+    private PautaService pautaService;
 
     @Test
     @DisplayName("Teste criação de uma pauta")
@@ -44,7 +44,7 @@ public class IPautaServiceTest {
         when(pautaMapper.pautaToPautaResponse(any(Pauta.class))).thenReturn(pautaResponseDTO);
         when(pautaRepository.save(any(Pauta.class))).thenReturn(pautaSalva);
 
-        PautaResponseDTO novaPauta = iPautaService.criarPauta(pautaDTO);
+        PautaResponseDTO novaPauta = pautaService.criarPauta(pautaDTO);
 
         assertNotNull(novaPauta.getDataCadastro());
         assertNotNull(novaPauta.getId());
@@ -59,7 +59,7 @@ public class IPautaServiceTest {
         when(pautaMapper.pautaRequestDTOToPauta(pautaDTO)).thenReturn(new Pauta());
 
         var erro = Assertions.assertThrows(BadRequestException.class, () -> {
-            iPautaService.criarPauta(pautaDTO);
+            pautaService.criarPauta(pautaDTO);
         });
 
         String expectedMessage = "A descrição da pauta é obrigatória";
@@ -78,7 +78,7 @@ public class IPautaServiceTest {
         when(pautaMapper.pautaToPautaResponse(any(Pauta.class))).thenReturn(pautaResponseDTO);
         when(pautaRepository.findById(Id)).thenReturn(Optional.of(pauta));
 
-        PautaResponseDTO pautaPesquisada = iPautaService.buscarPautaPorId(Id);
+        PautaResponseDTO pautaPesquisada = pautaService.buscarPautaPorId(Id);
 
         assertNotNull(pautaPesquisada.getDataCadastro());
         assertNotNull(pautaPesquisada.getId());
@@ -96,7 +96,7 @@ public class IPautaServiceTest {
         when(pautaRepository.findBySessaoId(Id)).thenReturn(Optional.of(pauta));
         when(pautaMapper.pautaToPautaResponse(any(Pauta.class))).thenReturn(pautaResponseDTO);
 
-        PautaResponseDTO pautaPesquisada = iPautaService.buscarPautaPorSessao(Id);
+        PautaResponseDTO pautaPesquisada = pautaService.buscarPautaPorSessao(Id);
 
         assertNotNull(pautaPesquisada.getDataCadastro());
         assertNotNull(pautaPesquisada.getId());
