@@ -20,7 +20,6 @@ import javax.validation.Valid;
 public class PautaController {
 
     private static final Logger logger = LoggerFactory.getLogger(PautaController.class);
-
     private final IPautaService pautaService;
 
     public PautaController(IPautaService pautaService) {

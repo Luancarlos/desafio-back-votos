@@ -21,6 +21,9 @@ public class Sessao {
     @Column
     private Long id;
 
+    @Column
+    private boolean fechado = false;
+
     @Column(name = "data_abertura")
     private LocalDateTime dataAbertura;
 
@@ -33,4 +36,17 @@ public class Sessao {
 
     @OneToMany(mappedBy = "sessao")
     private List<Voto> votos;
+
+
+    @Override
+    public String toString() {
+        return "Sessao{" +
+                "id=" + id +
+                ", fechado=" + fechado +
+                ", dataAbertura=" + dataAbertura +
+                ", dataFechamento=" + dataFechamento +
+                ", pauta=" + pauta +
+                ", votos=" + votos +
+                '}';
+    }
 }

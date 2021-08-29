@@ -27,4 +27,14 @@ public class Pauta {
 
     @OneToOne(mappedBy = "pauta")
     private Sessao sessao;
+
+    @Override
+    public String toString() {
+        return "Pauta{" +
+                "id=" + id +
+                ", descricao='" + descricao + '\'' +
+                ", dataCadastro=" + dataCadastro +
+                ", sessao=" + sessao +
+                '}';
+    }
 }

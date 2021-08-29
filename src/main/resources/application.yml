@@ -8,6 +8,10 @@ spring:
       ddl-auto: update
       dialect:
         PostgreSQLDialect: org.hibernate.dialect.PostgreSQLDialect
+  activemq:
+    broker-url: tcp://localhost:61616
+    password: admin
+    user: admin
 
 server:
   servlet:

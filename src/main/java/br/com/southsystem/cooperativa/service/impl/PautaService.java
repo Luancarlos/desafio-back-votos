@@ -3,17 +3,25 @@ package br.com.southsystem.cooperativa.service.impl;
 import br.com.southsystem.cooperativa.dto.request.PautaRequestDTO;
 import br.com.southsystem.cooperativa.dto.response.PautaResponseDTO;
 import br.com.southsystem.cooperativa.dto.response.PautaResultadoDTO;
+import br.com.southsystem.cooperativa.dto.response.SessaoResponseDTO;
 import br.com.southsystem.cooperativa.entity.Pauta;
 import br.com.southsystem.cooperativa.exceptions.BadRequestException;
 import br.com.southsystem.cooperativa.exceptions.ResourceNotFoundException;
 import br.com.southsystem.cooperativa.mapper.PautaMapper;
 import br.com.southsystem.cooperativa.repository.PautaRepository;
 import br.com.southsystem.cooperativa.service.IPautaService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 
 @Service
 public class PautaService implements IPautaService {
+
+    private static final Logger logger = LoggerFactory.getLogger(PautaService.class);
 
     private final PautaRepository pautaRepository;
 
@@ -69,6 +77,10 @@ public class PautaService implements IPautaService {
             throw new BadRequestException("A sessão desta pauta ainda está aberta");
         }
 
+        return converterPautaResultado(pauta);
+    }
+
+    private PautaResultadoDTO converterPautaResultado(Pauta pauta) {
         PautaResultadoDTO pautaResultado = pautaMapper.pautaToPautaResultado(pauta);
 
         long qtdSim = pauta.getSessao().getVotos()
@@ -81,5 +93,13 @@ public class PautaService implements IPautaService {
         pautaResultado.setQuantidadevotosNao((int) qtdNao);
 
         return pautaResultado;
+    }
+
+    @JmsListener(destination = "resultado-votacao-queue", containerFactory = "factoryResultadoVotacao")
+    private void consumerResultado(String sessaojson) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.findAndRegisterModules();
+        SessaoResponseDTO sessao = mapper.readValue(sessaojson, SessaoResponseDTO.class);
+        logger.info("Sessão finalizada JMS {}", sessao);
     }
 }

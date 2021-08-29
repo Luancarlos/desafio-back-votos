@@ -31,4 +31,16 @@ public class Voto {
     @ManyToOne
     @JoinColumn(name = "sessao_id", referencedColumnName = "id")
     private Sessao sessao;
+
+
+    @Override
+    public String toString() {
+        return "Voto{" +
+                "id=" + id +
+                ", cpf='" + cpf + '\'' +
+                ", voto='" + voto + '\'' +
+                ", dataVoto=" + dataVoto +
+                ", sessao=" + sessao +
+                '}';
+    }
 }

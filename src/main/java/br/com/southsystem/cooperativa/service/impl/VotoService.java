@@ -10,7 +10,6 @@ import br.com.southsystem.cooperativa.repository.VotoRepository;
 import br.com.southsystem.cooperativa.service.ISessaoService;
 import br.com.southsystem.cooperativa.service.IVotoService;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDateTime;
 import java.util.Optional;
 
@@ -31,7 +30,7 @@ public class VotoService implements IVotoService {
     @Override
     public VotoResponseDTO votar(VotoRequestDTO votoRequestDTO) {
 
-        validarCpf(votoRequestDTO.getCpf());
+        votoRequestDTO.setCpf(removerMascaraCpf(votoRequestDTO.getCpf()));
         validarSessao(votoRequestDTO.getIdSessao());
 
         if (jaVotou(votoRequestDTO.getCpf())) {
@@ -51,7 +50,7 @@ public class VotoService implements IVotoService {
         return voto.isPresent();
     }
 
-    private String validarCpf(String cpf) {
+    private String removerMascaraCpf(String cpf) {
         String cpfSemMascara = cpf.replaceAll("[^\\d]", "");
         if (cpfSemMascara.length() != 11) {
             throw new BadRequestException("O CPF informado é inválido");

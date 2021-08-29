@@ -11,23 +11,32 @@ import br.com.southsystem.cooperativa.mapper.SessaoMapper;
 import br.com.southsystem.cooperativa.repository.SessaoRepository;
 import br.com.southsystem.cooperativa.service.IPautaService;
 import br.com.southsystem.cooperativa.service.ISessaoService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class SessaoService implements ISessaoService {
-
+    private static final Logger logger = LoggerFactory.getLogger(SessaoService.class);
     private final SessaoRepository sessaoRepository;
     private final SessaoMapper sessaoMapper;
     private final IPautaService pautaService;
     private final PautaMapper pautaMapper;
+    private final JmsTemplate jmsTemplate;
 
-    public SessaoService(SessaoRepository sessaoRepository, SessaoMapper sessaoMapper, IPautaService pautaService, PautaMapper pautaMapper) {
+    public SessaoService(SessaoRepository sessaoRepository, SessaoMapper sessaoMapper, IPautaService pautaService, PautaMapper pautaMapper, JmsTemplate jmsTemplate) {
         this.sessaoRepository = sessaoRepository;
         this.sessaoMapper = sessaoMapper;
         this.pautaService = pautaService;
         this.pautaMapper = pautaMapper;
+        this.jmsTemplate = jmsTemplate;
     }
 
     @Override
@@ -72,4 +81,30 @@ public class SessaoService implements ISessaoService {
     private Pauta getPauta(Long id) {
         return pautaMapper.pautaResponseDTOToPauta(this.pautaService.buscarPautaPorId(id));
     }
+
+    @Scheduled(fixedRate = 60000, zone = "America/Recife")
+    @Transactional
+    public void enviarMensagemQuandoFecharSessao() {
+        logger.info("Buscando sessões fechadas");
+        List<Sessao> sessoes = sessaoRepository.findAllByFechadoAndDataFechamentoIsLessThanEqual(false, LocalDateTime.now());
+
+        sessoes.forEach(item -> {
+            try {
+                item.setFechado(true);
+                sessaoRepository.save(item);
+                SessaoResponseDTO sessaoResponseDTO = sessaoMapper.sessaoToSessaoResponseDTO(item);
+
+                ObjectMapper mapper = new ObjectMapper();
+                mapper.findAndRegisterModules();
+                String json = mapper.writeValueAsString(sessaoResponseDTO);
+
+                jmsTemplate.convertAndSend("resultado-votacao-queue", json);
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+        });
+
+    }
+
+
 }
